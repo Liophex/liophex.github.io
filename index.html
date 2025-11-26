@@ -4,8 +4,88 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Liophex</title>
+
+    <style>
+      body {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+
+      /* base squish animation (no fixed size, just smooth transitions) */
+      .squish {
+        transition: transform 0.01s ease;
+        cursor: pointer;
+      }
+    </style>
+
+    <script>
+      function squeak() {
+        const audio = new Audio("squeak.mp3");
+        audio.play();
+      }
+
+      function randomSquish(el) {
+        // random scale between 0.6 and 0.9
+        const scaleX = (Math.random() * 0.3 + 0.6).toFixed(2);
+        const scaleY = (Math.random() * 0.3 + 0.6).toFixed(2);
+
+        // apply squish
+        el.style.transform = `scale(${scaleX}, ${scaleY})`;
+
+        // bouncy return
+        setTimeout(() => {
+          el.style.transform = "scale(1)";
+        }, 120);
+      }
+    </script>
   </head>
+
   <body>
-      hi :3
+    <img src="logo.png" alt="liophex logo" />
+
+    <p>Welcome to my site! :3</p>
+    <h1>Meet Leo :D</h1>
+
+    <!-- LEO (click to squeak + squish) -->
+    <img
+      src="Leo.png"
+      alt="leo"
+      class="squish"
+      onclick="squeak(); randomSquish(this);"
+    />
+
+    <p>
+      he's such a cute, little, silly boi. he loves drawing. he can only speak
+      english. you can call him leopold, but he usually names himself leo.
+      that's it lol :p
+    </p>
+    <p> 
+      oh yeah, you can click him. he doesn't mind lmao
+    </p>
+
+    <h1>Programs I use (˶˃ ᵕ ˂˶)</h1>
+    <ul>
+      <b>Windows</b>
+      <li>MSPaint my beloved</li>
+      <li>Paint.NET</li>
+      <b>Linux</b>
+      <li>uhh idk :<</li>
+    </ul>
+
+    <p>As for coding, head over to <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D</p>
+    <p>I can code, but not on this identity >:</p>
+
+    <h1>Platforms I'm in ( ੭ ･ᴗ･ )੭</h1>
+    <a href="https://www.youtube.com/@Liophex" target="_blank" style="text-decoration: none;">
+      <img src="button_yt.png" alt="youtube" style="cursor: pointer;"/>
+    </a>
+    <a href="https://bsky.app/profile/did:plc:5et5rbsf6auuy6hjfwgeakuj" target="_blank" style="text-decoration: none;">
+      <img src="button_bsky.png" alt="bluesky" style="cursor: pointer;"/>
+    </a>
+    <a href="#" target="_blank" style="text-decoration: none;">
+      <img src="button_discord-server_soonig.png" alt="discord server soon i guess tm" style="cursor: pointer;"/>
+    </a>
   </body>
 </html>
