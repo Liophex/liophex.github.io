@@ -13,11 +13,12 @@
         font-family: sans-serif;
       }
 
-      /* base squish animation (no fixed size, just smooth transitions) */
       .squish {
         transition: transform 0.01s ease;
         cursor: pointer;
       }
+
+
     </style>
 
     <script>
@@ -27,28 +28,289 @@
       }
 
       function randomSquish(el) {
-        // random scale between 0.6 and 0.9
         const scaleX = (Math.random() * 0.3 + 0.6).toFixed(2);
         const scaleY = (Math.random() * 0.3 + 0.6).toFixed(2);
 
-        // apply squish
         el.style.transform = `scale(${scaleX}, ${scaleY})`;
 
-        // bouncy return
         setTimeout(() => {
           el.style.transform = "scale(1)";
         }, 120);
       }
+
+      /* ————— TRANSLATIONS ————— */
+
+      const translations = {
+        en: {
+          welcome: "Welcome to my site! :3",
+          meet: "Meet Leo :D",
+          desc1:
+            "he's such a cute, little, silly boi. he loves drawing. he can only speak english. you can call him leopold, but he usually calls himself leo. that's it lol :p",
+          desc2: "oh yeah, you can click him. he doesn't mind lmao",
+          programs_title: "Programs I use (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint my beloved",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "uhh idk :<",
+          coding1:
+            'As for coding, head over to <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "I can code, but not on this identity >:",
+          platforms: "Platforms I'm in ( ੭ ･ᴗ･ )੭",
+        },
+
+        pl: {
+          welcome: "Witaj na mojej stronie! :3",
+          meet: "Poznaj Leo :D",
+          desc1:
+            "to taki słodki, mały, głupiutki chłopczyk. kocha rysować. zna tylko angielski. możesz mówić na niego leopold, ale zwykle mówi o sobie leo. to tyle lol :p",
+          desc2: "aha, możesz go klikać. nie przeszkadza mu to lmao",
+          programs_title: "Programy, których używam (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint mój ukochany",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "uhh nie wiem :<",
+          coding1:
+            'Jeśli chodzi o kodzenie, zajrzyj na <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "Umiem kodować, ale nie w tej tożsamości >:",
+          platforms: "Platformy, na których jestem ( ੭ ･ᴗ･ )੭",
+        },
+
+        lt: {
+          welcome: "Sveiki atvykę į mano svetainę! :3",
+          meet: "Susipažink su Leo :D",
+          desc1:
+            "jis toks mielas, mažas, juokingas vaikis. mėgsta piešti. moka tik anglų. gali vadinti jį leopoldu, bet jis pats sako leo. tiek žinių lol :p",
+          desc2: "o taip, gali jį spausti. jam nė motais lmao",
+          programs_title: "Programos, kurias naudoju (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint mano meilė",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "uhh nežinau :<",
+          coding1:
+            'Dėl programavimo apsilankyk <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "Moku programuoti, tik ne šioje tapatybėje >:",
+          platforms: "Platformos, kuriose esu ( ੭ ･ᴗ･ )੭",
+        },
+
+        de: {
+          welcome: "Willkommen auf meiner Seite! :3",
+          meet: "Lern Leo kennen :D",
+          desc1:
+            "er ist so ein süßer, kleiner, alberner Junge. er liebt zeichnen. er spricht nur Englisch. du kannst ihn Leopold nennen, aber er nennt sich selbst Leo. das war's lol :p",
+          desc2: "oh ja, du kannst ihn anklicken. es stört ihn nicht lmao",
+          programs_title: "Programme, die ich benutze (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint meine Liebe",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "uhh keine Ahnung :<",
+          coding1:
+            'Zum Coden geh zu <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "Ich kann programmieren, aber nicht unter dieser Identität >:",
+          platforms: "Plattformen, auf denen ich bin ( ੭ ･ᴗ･ )੭",
+        },
+
+        jp: {
+          welcome: "サイトへようこそ！ :3",
+          meet: "レオに会ってね :D",
+          desc1:
+            "かわいくてちっちゃくてちょいおバカな子♡ お絵描きだいすき！英語しか話せないよ！レオポルドって呼んでもいいけど本人はレオって名乗ってるよ〜ｗ",
+          desc2: "あ、ぽちぽちしてOKだよ〜気にしないの♡ lmao",
+          programs_title: "使ってるプログラム (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint だいすき♡",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "うーん、しらない :<",
+          coding1:
+            '<a href="https://patriklani.net/" target="_blank">PatrikLani</a> 見てね！ :D',
+          coding2: "コードできるけど、このアイデンじゃないの >:",
+          platforms: "使ってるプラットフォーム ( ੭ ･ᴗ･ )੭",
+        },
+
+        ru: {
+          welcome: "Добро пожаловать на мой сайтик! :3",
+          meet: "Познакомьтесь с Лео :D",
+          desc1:
+            "он такой миленький, маленький и глупяшка хех♡ обожает рисовать! говорит только по-английски. можно звать его Леопольдом, но сам он говорит Лео ахах :p",
+          desc2: "и да, можешь тыкать его, ему норм лмао",
+          programs_title: "Программы, которые я юзаю (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint моя любовь",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "ээээ не знаю :<",
+          coding1:
+            'По коду — глянь <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "Я умею кодить, но не в этом образе >:",
+          platforms: "Платформы, где я есть ( ੭ ･ᴗ･ )੭",
+        },
+
+        ua: {
+          welcome: "Вітаю на моєму сайтику! :3",
+          meet: "Познайомся з Лео :D",
+          desc1:
+            "він такий милий, маленький і трохи кумедний хлопчик♡ дуже любить малювати! знає тільки англійську. можеш звати його Леопольд, але він каже Лео хех :p",
+          desc2: "і так, можеш його тицяти, він не проти лмао",
+          programs_title: "Програми, які я юзаю (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint моя любоoов",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "еее ну не знаю :<",
+          coding1:
+            'Щодо коду — глянь <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "Умію кодити, але не в цій формі >:",
+          platforms: "Платформи, де я є ( ੭ ･ᴗ･ )੭",
+        },
+
+        es: {
+          welcome: "¡Bienvenid@ a mi sitio! :3",
+          meet: "¡Conoce a Leo! :D",
+          desc1:
+            "es un niño pequeñito, tontito y super adorable♡ le encanta dibujar. solo habla inglés. puedes llamarlo leopold, pero él dice que es leo jajaj :p",
+          desc2: "ah, y puedes hacerle clic. no le molesta lmao",
+          programs_title: "Programas que uso (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint mi amooor",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "umm no sé :<",
+          coding1:
+            'Sobre código, pasa por <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
+          coding2: "Sé programar pero no con esta identidad >:",
+          platforms: "Plataformas donde estoy ( ੭ ･ᴗ･ )੭",
+        },
+
+        fr: {
+          welcome: "Bienvenue sur mon site ! :3",
+          meet: "Voici Leo :D",
+          desc1:
+            "c’est un petit garçon trop mignon et un peu bête hihi♡ il adore dessiner ! il ne parle que anglais. tu peux l’appeler léopold mais lui il dit juste leo lol :p",
+          desc2: "oh et tu peux cliquer dessus, il s’en fiche lmao",
+          programs_title: "Programmes que j’utilise (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint mon bébé",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "euh je sais pas :<",
+          coding1:
+            'Pour le code, va voir <a href="https://patriklani.net/" target="_blank">PatrikLani</a> ! :D',
+          coding2: "Je sais coder mais pas avec cette identité >:",
+          platforms: "Plateformes où je suis ( ੭ ･ᴗ･ )੭",
+        },
+
+        zhCN: {
+          welcome: "欢迎来到我的小网站！ :3",
+          meet: "来见见小Leo吧 :D",
+          desc1:
+            "他是个超可爱、小小的、有点傻萌的小男孩♡ 超爱画画！只会英文啦～你可以叫他Leopold，但他自己都会说“Leo”呢嘿嘿 :p",
+          desc2: "啊对，你可以戳戳他，他完全不介意的哟~ lmao",
+          programs_title: "我用的程序 (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint 我滴爱♡",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "呃呃我不知道 :<",
+          coding1:
+            '写代码的话去 <a href="https://patriklani.net/" target="_blank">PatrikLani</a> 看看哦！ :D',
+          coding2: "我会写代码但不是用这个身份 >:",
+          platforms: "我在的地方们 ( ੭ ･ᴗ･ )੭",
+        },
+
+        zhTW: {
+          welcome: "歡迎來到我的小網站！ :3",
+          meet: "來看看小Leo吧 :D",
+          desc1:
+            "他是個超可愛、小小呆呆的孩子♡ 超愛畫畫～只會英文啦！你可以叫他Leopold，不過他都自稱Leo嘿嘿 :p",
+          desc2: "啊對，你可以點他，他完全不會介意喔～ lmao",
+          programs_title: "我用的程式 (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint 我的愛♡",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "呃呃不知道啦 :<",
+          coding1:
+            '要看程式就去 <a href="https://patriklani.net/" target="_blank">PatrikLani</a> 喔！ :D',
+          coding2: "我會寫程式但不是用這個身分 >:",
+          platforms: "我在的地方們 ( ੭ ･ᴗ･ )੭",
+        },
+
+        ko: {
+          welcome: "내 사이트에 온 걸 환영해! :3",
+          meet: "레오를 만나봐! :D",
+          desc1:
+            "레오는 완전 귀엽고 조그맣고 살짝 멍멍한(?) 꼬마야♡ 그림 그리는 거 너무 좋아해! 영어밖에 못하지만… 레오폴드라고 불러도 되는데, 본인은 그냥 레오라고 해 >:3",
+          desc2: "아, 그리고 클릭해도 돼! 레오는 신경 안 써 lmao",
+          programs_title: "내가 쓰는 프로그램들 (˶˃ ᵕ ˂˶)",
+          windows: "Windows",
+          mspaint: "MSPaint 사랑해♡",
+          paintnet: "Paint.NET",
+          linux: "Linux",
+          linux_idk: "으아 뭐 쓰는지 몰라 :<",
+          coding1:
+            '코딩은 <a href="https://patriklani.net/" target="_blank">PatrikLani</a> 에서 봐줘! :D',
+          coding2: "나 코딩 할 줄 알아! 근데 이 아이덴티티로는 안 해 >:",
+          platforms: "내가 활동 중인 플랫폼들 ( ੭ ･ᴗ･ )੭",
+        },
+      };
+
+      /* apply language */
+      function setLang(lang) {
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.innerHTML = translations[lang][el.dataset.i18n];
+        });
+      }
+
+      window.onload = () => {
+        const lang = navigator.language || navigator.userLanguage;
+        const lower = lang.toLowerCase();
+
+        let chosen = "en"; // fallback
+
+        if (lower.startsWith("pl")) chosen = "pl";
+        else if (lower.startsWith("lt")) chosen = "lt";
+        else if (lower.startsWith("de")) chosen = "de";
+        else if (lower.startsWith("ja")) chosen = "jp";
+        else if (lower.startsWith("ru")) chosen = "ru";
+        else if (lower.startsWith("uk") || lower.startsWith("ua")) chosen = "ua";
+        else if (lower.startsWith("es")) chosen = "es";
+        else if (lower.startsWith("fr")) chosen = "fr";
+        else if (lower.startsWith("zh-cn") || lower.startsWith("zh-hans")) chosen = "zhCN";
+        else if (lower.startsWith("zh-tw") || lower.startsWith("zh-hant")) chosen = "zhTW";
+        else if (lower.startsWith("ko")) chosen = "ko";
+
+  setLang(chosen);
+};
+
     </script>
   </head>
 
   <body>
+    <!-- FLAG BUTTONS AAAAA SO MANY LANGS OMG -->
+    <div class="lang-buttons">
+      <button onclick="setLang('en')">🇬🇧 English</button>
+      <button onclick="setLang('es')">🇪🇸 Español</button>
+      <button onclick="setLang('fr')">🇫🇷 Français</button>
+      <button onclick="setLang('de')">🇩🇪 Deutsch</button>
+      <button onclick="setLang('pl')">🇵🇱 Polski</button>
+      <button onclick="setLang('ru')">🇷🇺 Русский</button>
+      <button onclick="setLang('ua')">🇺🇦 Українська</button>
+      <button onclick="setLang('lt')">🇱🇹 Lietuvių</button>
+      <button onclick="setLang('jp')">🇯🇵 日本語</button>
+      <button onclick="setLang('ko')">🇰🇷 한국어</button>
+      <button onclick="setLang('zhCN')">🇨🇳 简体中文</button>
+      <button onclick="setLang('zhTW')">🇹🇼 繁體中文</button>
+    </div>
+
     <img src="logo.png" alt="liophex logo" />
 
-    <p>Welcome to my site! :3</p>
-    <h1>Meet Leo :D</h1>
+    <p data-i18n="welcome"></p>
+    <h1 data-i18n="meet"></h1>
 
-    <!-- LEO (click to squeak + squish) -->
     <img
       src="Leo.png"
       alt="leo"
@@ -56,36 +318,42 @@
       onclick="squeak(); randomSquish(this);"
     />
 
-    <p>
-      he's such a cute, little, silly boi. he loves drawing. he can only speak
-      english. you can call him leopold, but he usually calls himself leo.
-      that's it lol :p
-    </p>
-    <p> 
-      oh yeah, you can click him. he doesn't mind lmao
-    </p>
+    <p data-i18n="desc1"></p>
+    <p data-i18n="desc2"></p>
 
-    <h1>Programs I use (˶˃ ᵕ ˂˶)</h1>
+    <h1 data-i18n="programs_title"></h1>
+
     <ul>
-      <b>Windows</b>
-      <li>MSPaint my beloved</li>
-      <li>Paint.NET</li>
-      <b>Linux</b>
-      <li>uhh idk :<</li>
+      <b data-i18n="windows"></b>
+      <li data-i18n="mspaint"></li>
+      <li data-i18n="paintnet"></li>
+
+      <b data-i18n="linux"></b>
+      <li data-i18n="linux_idk"></li>
     </ul>
 
-    <p>As for coding, head over to <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D</p>
-    <p>I can code, but not on this identity >:</p>
+    <p data-i18n="coding1"></p>
+    <p data-i18n="coding2"></p>
 
-    <h1>Platforms I'm in ( ੭ ･ᴗ･ )੭</h1>
-    <a href="https://www.youtube.com/@Liophex" target="_blank" style="text-decoration: none;">
-      <img src="button_yt.png" alt="youtube" style="cursor: pointer;"/>
+    <h1 data-i18n="platforms"></h1>
+
+    <a href="https://www.youtube.com/@Liophex" target="_blank">
+      <img src="button_yt.png" alt="youtube" style="cursor: pointer;" />
     </a>
-    <a href="https://bsky.app/profile/did:plc:5et5rbsf6auuy6hjfwgeakuj" target="_blank" style="text-decoration: none;">
-      <img src="button_bsky.png" alt="bluesky" style="cursor: pointer;"/>
+
+    <a
+      href="https://bsky.app/profile/did:plc:5et5rbsf6auuy6hjfwgeakuj"
+      target="_blank"
+    >
+      <img src="button_bsky.png" alt="bluesky" style="cursor: pointer;" />
     </a>
-    <a href="#" target="_blank" style="text-decoration: none;">
-      <img src="button_discord-server_soonig.png" alt="discord server soon i guess tm" style="cursor: pointer;"/>
+
+    <a href="#" target="_blank">
+      <img
+        src="button_discord-server_soonig.png"
+        alt="discord server soon i guess"
+        style="cursor: pointer;"
+      />
     </a>
   </body>
 </html>
