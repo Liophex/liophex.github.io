@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Leo - Bouncing Logo</title>
+    <style>
+        :root {
+            /* Tweak the logo size if needed */
+            --logo-size: 160px;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+        }
+        #logo {
+            position: absolute;
+            width: var(--logo-size);
+            height: auto;
+            will-change: transform;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.01s ease;
+        }
+        #randomText {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 48px;
+            color: #fff;
+            text-align: center;
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div id="randomText"></div>
+    <img id="logo" src="Leo.png" alt="Leo" />
+
+    <script>
+        (function () {
+            const logo = document.getElementById('logo');
+            const randomText = document.getElementById('randomText');
+
+            // Random text messages
+            const messages = [
+                'hehe :3',
+                'silly boi hours',
+                'leo moment',
+                'bouncyyyy',
+                ':D',
+                'nyoom',
+                'henlo',
+                '*bounces*',
+                'wheee'
+            ];
+
+            // Show random text on load, then fade out
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            randomText.textContent = randomMessage;
+            
+            setTimeout(() => {
+                randomText.style.opacity = '0';
+            }, 3000); // Wait 3 seconds before fading
+
+            // Animation parameters - randomized speed (fast or slow)
+            const speeds = [
+                120,  // slow
+                150,  // slow-medium
+                180,  // medium
+                280,  // fast
+                350,  // faster
+                450   // super fast
+            ];
+            const speed = speeds[Math.floor(Math.random() * speeds.length)]; // pixels per second
+            let x = 0, y = 0;
+            let vx = 0, vy = 0;
+            let maxX = 0, maxY = 0;
+            let last = 0;
+            let ready = false;
+
+            // Image variants
+            const images = ['Leo.png', 'Leo2.png', 'leo3.png', 'leo4.png'];
+            function randomizeImage() {
+                const randomImage = images[Math.floor(Math.random() * images.length)];
+                logo.src = randomImage;
+            }
+
+            // Squeak and squish functions
+            function squeak() {
+                const audio = new Audio("squeak.mp3");
+                audio.play();
+            }
+
+            function randomSquish(el) {
+                const scaleX = (Math.random() * 0.3 + 0.6).toFixed(2);
+                const scaleY = (Math.random() * 0.3 + 0.6).toFixed(2);
+                const currentTransform = el.style.transform;
+
+                // Apply squish while preserving position
+                el.style.transform = currentTransform + ` scale(${scaleX}, ${scaleY})`;
+
+                setTimeout(() => {
+                    el.style.transform = currentTransform;
+                }, 120);
+            }
+
+            function updateBounds() {
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                const lw = logo.offsetWidth;
+                const lh = logo.offsetHeight;
+
+                maxX = Math.max(0, w - lw);
+                maxY = Math.max(0, h - lh);
+
+                // Keep inside bounds if resized smaller
+                x = Math.min(Math.max(0, x), maxX);
+                y = Math.min(Math.max(0, y), maxY);
+                logo.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            }
+
+            function initMotion() {
+                // Start at a random spot
+                x = Math.random() * maxX;
+                y = Math.random() * maxY;
+
+                // Start diagonally like the DVD logo
+                const s = speed / Math.SQRT2;
+                vx = (Math.random() < 0.5 ? -1 : 1) * s;
+                vy = (Math.random() < 0.5 ? -1 : 1) * s;
+
+                logo.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                ready = true;
+                requestAnimationFrame(tick);
+            }
+
+            function reflect(pos, vel, min, max) {
+                // Reflect across the wall to handle overshoot smoothly
+                let bounced = false;
+                if (pos < min) {
+                    pos = min + (min - pos);
+                    vel = Math.abs(vel);
+                    bounced = true;
+                } else if (pos > max) {
+                    pos = max - (pos - max);
+                    vel = -Math.abs(vel);
+                    bounced = true;
+                }
+                return { pos, vel, bounced };
+            }
+
+            function tick(ts) {
+                if (!ready) return;
+                if (!last) last = ts;
+                const dt = Math.min(0.05, (ts - last) / 1000); // cap delta for long tabswitch
+                last = ts;
+
+                // Integrate
+                let nx = x + vx * dt;
+                let ny = y + vy * dt;
+
+                // Bounce off walls
+                const rx = reflect(nx, vx, 0, maxX);
+                nx = rx.pos; vx = rx.vel;
+
+                const ry = reflect(ny, vy, 0, maxY);
+                ny = ry.pos; vy = ry.vel;
+
+                // Change image if bounced
+                if (rx.bounced || ry.bounced) {
+                    randomizeImage();
+                }
+
+                x = nx; y = ny;
+                logo.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+                requestAnimationFrame(tick);
+            }
+
+            // Ensure sizes are known
+            function startIfReady() {
+                updateBounds();
+                if (!ready && logo.complete && logo.naturalWidth > 0) {
+                    initMotion();
+                }
+            }
+
+            // Events
+            window.addEventListener('resize', updateBounds);
+            logo.addEventListener('load', startIfReady);
+            logo.addEventListener('click', () => {
+                squeak();
+                randomSquish(logo);
+            });
+
+            // In case the image is cached
+            if (logo.complete) {
+                // Force reflow to get offset sizes after CSS applies
+                requestAnimationFrame(startIfReady);
+            }
+        })();
+    </script>
+</body>
+</html>

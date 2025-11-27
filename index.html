@@ -18,13 +18,38 @@
         cursor: pointer;
       }
 
+      .counter-container {
+        margin: 10px 0;
+        font-size: 18px;
+      }
 
     </style>
 
     <script>
+      let clickCount = 0;
+
       function squeak() {
         const audio = new Audio("squeak.mp3");
         audio.play();
+        updateCounter();
+      }
+
+      function updateCounter() {
+        clickCount++;
+        localStorage.setItem('leoClickCount', clickCount);
+        document.getElementById('clickCounter').textContent = clickCount;
+      }
+
+      function resetCounter() {
+        clickCount = 0;
+        localStorage.setItem('leoClickCount', clickCount);
+        document.getElementById('clickCounter').textContent = clickCount;
+      }
+
+      function loadCounter() {
+        const saved = localStorage.getItem('leoClickCount');
+        clickCount = saved ? parseInt(saved) : 0;
+        document.getElementById('clickCounter').textContent = clickCount;
       }
 
       function randomSquish(el) {
@@ -44,6 +69,7 @@
         en: {
           welcome: "Welcome to my site! :3",
           meet: "Meet Leo :D",
+          counter_label: "Leo squishes:",
           desc1:
             "he's such a cute, little, silly boi. he loves drawing. he can only speak english. you can call him leopold, but he usually calls himself leo. that's it lol :p",
           desc2: "oh yeah, you can click him. he doesn't mind lmao",
@@ -57,11 +83,15 @@
             'As for coding, head over to <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
           coding2: "I can code, but not on this identity >:",
           platforms: "Platforms I'm in ( ੭ ･ᴗ･ )੭",
+          meanwhile_title: "Meanwhile...",
+          meanwhile_desc: "Have a look at my other pages :D",
+          leo_bouncy: "Leo's Bouncy Page",
         },
 
         pl: {
           welcome: "Witaj na mojej stronie! :3",
           meet: "Poznaj Leo :D",
+          counter_label: "Ściśnięcia Leo:",
           desc1:
             "to taki słodki, mały, głupiutki chłopczyk. kocha rysować. zna tylko angielski. możesz mówić na niego leopold, ale zwykle mówi o sobie leo. to tyle lol :p",
           desc2: "aha, możesz go klikać. nie przeszkadza mu to lmao",
@@ -75,11 +105,15 @@
             'Jeśli chodzi o kodzenie, zajrzyj na <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
           coding2: "Umiem kodować, ale nie w tej tożsamości >:",
           platforms: "Platformy, na których jestem ( ੭ ･ᴗ･ )੭",
+          meanwhile_title: "Tymczasem...",
+          meanwhile_desc: "Sprawdź moje inne strony :D",
+          leo_bouncy: "Skacząca Strona Leo",
         },
 
         lt: {
           welcome: "Sveiki atvykę į mano svetainę! :3",
           meet: "Susipažink su Leo :D",
+          counter_label: "Leo spustelėjimai:",
           desc1:
             "jis toks mielas, mažas, juokingas vaikis. mėgsta piešti. moka tik anglų. gali vadinti jį leopoldu, bet jis pats sako leo. tiek žinių lol :p",
           desc2: "o taip, gali jį spausti. jam nė motais lmao",
@@ -93,11 +127,15 @@
             'Dėl programavimo apsilankyk <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
           coding2: "Moku programuoti, tik ne šioje tapatybėje >:",
           platforms: "Platformos, kuriose esu ( ੭ ･ᴗ･ )੭",
+          meanwhile_title: "Tuo tarpu...",
+          meanwhile_desc: "Apsilankyk mano kituose puslapiuose :D",
+          leo_bouncy: "Leo Šokinėjantis Puslapis",
         },
 
         de: {
           welcome: "Willkommen auf meiner Seite! :3",
           meet: "Lern Leo kennen :D",
+          counter_label: "Leo Quetschungen:",
           desc1:
             "er ist so ein süßer, kleiner, alberner Junge. er liebt zeichnen. er spricht nur Englisch. du kannst ihn Leopold nennen, aber er nennt sich selbst Leo. das war's lol :p",
           desc2: "oh ja, du kannst ihn anklicken. es stört ihn nicht lmao",
@@ -111,11 +149,15 @@
             'Zum Coden geh zu <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
           coding2: "Ich kann programmieren, aber nicht unter dieser Identität >:",
           platforms: "Plattformen, auf denen ich bin ( ੭ ･ᴗ･ )੭",
+          meanwhile_title: "Unterdessen...",
+          meanwhile_desc: "Schau dir meine anderen Seiten an :D",
+          leo_bouncy: "Leos Hüpfende Seite",
         },
 
         ru: {
           welcome: "Добро пожаловать на мой сайтик! :3",
           meet: "Познакомьтесь с Лео :D",
+          counter_label: "Сжатия Лео:",
           desc1:
             "он такой миленький, маленький и глупяшка хех♡ обожает рисовать! говорит только по-английски. можно звать его Леопольдом, но сам он говорит Лео ахах :p",
           desc2: "и да, можешь тыкать его, ему норм лмао",
@@ -129,6 +171,9 @@
             'По коду — глянь <a href="https://patriklani.net/" target="_blank">PatrikLani</a>! :D',
           coding2: "Я умею кодить, но не в этом образе >:",
           platforms: "Платформы, где я есть ( ੭ ･ᴗ･ )੭",
+          meanwhile_title: "Между тем...",
+          meanwhile_desc: "Загляни на мои другие страницы :D",
+          leo_bouncy: "Прыгающая Страница Лео",
         },
       };
 
@@ -151,6 +196,7 @@
         else if (lower.startsWith("ru")) chosen = "ru";
 
   setLang(chosen);
+  loadCounter();
 };
 
     </script>
@@ -170,6 +216,11 @@
 
     <p data-i18n="welcome"></p>
     <h1 data-i18n="meet"></h1>
+
+    <div class="counter-container">
+      <span data-i18n="counter_label"></span> <span id="clickCounter">0</span>
+      <button class="reset-btn" onclick="resetCounter()" title="Reset counter">🗑️</button>
+    </div>
 
     <img
       src="Leo.png"
@@ -215,5 +266,11 @@
         style="cursor: pointer;"
       />
     </a>
+
+    <h1 data-i18n="meanwhile_title"></h1>
+    <p data-i18n="meanwhile_desc"></p>
+    <ul>
+      <li><a href="leo.html" data-i18n="leo_bouncy"></a></li>
+    </ul>
   </body>
 </html>
