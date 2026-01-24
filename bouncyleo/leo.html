@@ -44,7 +44,7 @@
 </head>
 <body>
     <div id="randomText"></div>
-    <img id="logo" src="Leo.png" alt="Leo" />
+    <img id="logo" src="Leo1.png" alt="Leo" />
 
     <script>
         (function () {
@@ -61,7 +61,26 @@
                 'nyoom',
                 'henlo',
                 '*bounces*',
-                'wheee'
+                'wheee',
+                'boing boing',
+                'i love bouncing',
+                'leopoaldo',
+                'im so cute',
+                'wiggle wiggle',
+                '✨ sparkles ✨',
+                'hehehehe',
+                'zoom zoom',
+                'best site ever',
+                'click me >:D',
+                'yay',
+                'bop',
+                'bap',
+                '*wiggles*',
+                'hehehehehehe',
+                'cute and round',
+                'drag me around :>',
+                'boingy boingy',
+                'pew pew'
             ];
 
             // Show random text on load, then fade out
@@ -88,31 +107,20 @@
             let last = 0;
             let ready = false;
 
+            // Gravity mode variables
+            let gravityMode = false;
+            let gravityTimeout = null;
+            const GRAVITY = 800; // pixels per second squared
+            const FRICTION = 0.98; // velocity multiplier each frame
+
             // Image variants
-            const images = ['Leo.png', 'Leo2.png', 'Leo3.png', 'Leo4.png'];
+            const images = ['Leo1.png', 'Leo2.png', 'Leo3.png', 'Leo4.png', 'Leo5.png', 'Leo6.png'];
             function randomizeImage() {
                 const randomImage = images[Math.floor(Math.random() * images.length)];
                 logo.src = randomImage;
             }
 
-            // Squeak and squish functions
-            function squeak() {
-                const audio = new Audio("squeak.mp3");
-                audio.play();
-            }
 
-            function randomSquish(el) {
-                const scaleX = (Math.random() * 0.3 + 0.6).toFixed(2);
-                const scaleY = (Math.random() * 0.3 + 0.6).toFixed(2);
-                const currentTransform = el.style.transform;
-
-                // Apply squish while preserving position
-                el.style.transform = currentTransform + ` scale(${scaleX}, ${scaleY})`;
-
-                setTimeout(() => {
-                    el.style.transform = currentTransform;
-                }, 120);
-            }
 
             function updateBounds() {
                 const w = window.innerWidth;
@@ -169,6 +177,15 @@
                 let nx = x + vx * dt;
                 let ny = y + vy * dt;
 
+                if (gravityMode) {
+                    // Apply gravity to vertical velocity
+                    vy += GRAVITY * dt;
+                    
+                    // Apply friction
+                    vx *= FRICTION;
+                    vy *= FRICTION;
+                }
+
                 // Bounce off walls
                 const rx = reflect(nx, vx, 0, maxX);
                 nx = rx.pos; vx = rx.vel;
@@ -198,9 +215,66 @@
             // Events
             window.addEventListener('resize', updateBounds);
             logo.addEventListener('load', startIfReady);
+
+            // Dragging variables
+            let isDragging = false;
+            let dragOffsetX = 0;
+            let dragOffsetY = 0;
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+            let lastDragTime = 0;
+
+            logo.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                const rect = logo.getBoundingClientRect();
+                dragOffsetX = e.clientX - rect.left;
+                dragOffsetY = e.clientY - rect.top;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                lastDragTime = performance.now();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const currentTime = performance.now();
+                    const dt = (currentTime - lastDragTime) / 1000 || 0.016;
+                    
+                    x = Math.max(0, Math.min(e.clientX - dragOffsetX, maxX));
+                    y = Math.max(0, Math.min(e.clientY - dragOffsetY, maxY));
+                    logo.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                    
+                    // Calculate velocity from mouse movement
+                    if (dt > 0) {
+                        vx = (e.clientX - lastMouseX) / dt;
+                        vy = (e.clientY - lastMouseY) / dt;
+                    }
+                    
+                    lastMouseX = e.clientX;
+                    lastMouseY = e.clientY;
+                    lastDragTime = currentTime;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    // Velocity is already set from mousemove, so Leo continues with throw momentum
+                }
+            });
+
             logo.addEventListener('click', () => {
-                squeak();
-                randomSquish(logo);
+                if (!isDragging) {
+                    // Activate gravity mode
+                    if (gravityMode) {
+                        clearTimeout(gravityTimeout);
+                    }
+                    gravityMode = true;
+                    
+                    // Deactivate after 60 seconds
+                    gravityTimeout = setTimeout(() => {
+                        gravityMode = false;
+                    }, 60000);
+                }
             });
 
             // In case the image is cached
